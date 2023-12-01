@@ -1,10 +1,10 @@
 import { Buffer } from 'buffer';
 
 const Nosotros = ({ nosotros, theme }) => {
-  //console.log(theme)
+  
   const viewImage = (html_image) => {
+    //console.log(html_image.data.length);
     if (html_image && typeof html_image !== "string") {
-      //console.log(html_image);
       const asciiTraducido = Buffer.from(html_image?.data).toString('ascii');
       if (asciiTraducido) {
         return (
@@ -62,7 +62,8 @@ const Nosotros = ({ nosotros, theme }) => {
                   </p>
                 </div>
               </div>
-              {data?.html_image ?
+              {
+              data?.html_image.data.length!==0 ?
                 <div className="col contenedor"
                   style={{ height: `50%`, }}
                 >

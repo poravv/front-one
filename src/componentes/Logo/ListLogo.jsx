@@ -20,9 +20,12 @@ const ListLogo = ({ token }) => {
 
 
     const getLstLogo = async () => {
+        try {
             const res = await getAllLogo({ token: token, param: 'get' });
-            //console.log(res.body)
             setData(res.body);
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     const handleDelete = async (id) => {
@@ -32,7 +35,7 @@ const ListLogo = ({ token }) => {
 
     const handleUpdate = async (newData) => {
         await updateLogo({ token: token, param: newData.idlogo, json: newData }).then((res) => {
-            //console.log(res)
+            console.log(res)
             if (res?.mensaje === 'error') {
                 message.error(res?.detmensaje)
             } else {
@@ -50,20 +53,16 @@ const ListLogo = ({ token }) => {
         {
             title: 'Imagen',
             dataIndex: 'html_image',
+            //width: '22%',
             editable: true,
             render: (_, { html_image }) => {
                 if (html_image && typeof html_image !== "string") {
-                    //console.log(html_image);
                     const asciiTraducido = Buffer.from(html_image?.data).toString('ascii');
-                    //const asciiTraducido = Buffer.from(html_image.data).toString();
-                    //console.log(asciiTraducido);
                     if (asciiTraducido) {
                         return (
                             <Image
-                                style={{ borderRadius: `4px`, width: `60px` }}
+                                style={{ borderRadius: `4px`, width: `70px` }}
                                 alt="imagen"
-                                //preview={false}
-                                //style={{ width: '50%',margin:`0px`,textAlign:`center` }}
                                 src={asciiTraducido}
                             />
                         );
@@ -96,7 +95,7 @@ const ListLogo = ({ token }) => {
                 return editable ? (
                     <span>
                         <Typography.Link
-                            onClick={() => save(record.idlogo,record.html_image)}
+                            onClick={() => save(record.idlogo, record.html_image)}
                             style={{
                                 marginRight: 8,
                             }} >
@@ -131,9 +130,11 @@ const ListLogo = ({ token }) => {
     ]
 
     const edit = (record) => {
+        delete record.html_image;
         form.setFieldsValue({
             ...record,
         });
+        
         setEditingKey(record.idlogo);
     };
 
@@ -150,8 +151,8 @@ const ListLogo = ({ token }) => {
         handleDelete(idlogo);
     };
 
-    const save = async (idlogo,html_image) => {
-
+    const save = async (idlogo, html_image) => {
+        console.log(html_image)
         try {
             const row = await form.validateFields();
             const newData = [...data];
@@ -163,12 +164,19 @@ const ListLogo = ({ token }) => {
                     ...item,
                     ...row,
                 });
-                
+
+
+
                 if (idlogo === item.idlogo) {
                     //console.log('Entra en asignacion',record.img);
+                    /*
+                    if(item.html_image===null){ 
+                        message.warning('Seleccione una imagen');
+                        return
+                    }
+                    */
                     newData[index].html_image = html_image;
                 }
-
                 handleUpdate(newData[index]);
                 setData(newData);
                 setEditingKey('');
@@ -208,7 +216,7 @@ const ListLogo = ({ token }) => {
                 <div style={{ marginBottom: `5px`, textAlign: `end` }}>
                     <Button type="default" onClick={() => navigate('/nuevologo')} > Nuevo</Button>
                 </div>
-                <TableModel mergedColumns={mergedColumns} data={data} form={form} keyExtraido={'idlogo'} varx={350} />
+                <TableModel mergedColumns={mergedColumns} data={data} form={form} keyExtraido={'idlogo'} varx={200} />
             </Container>
         </div>
     )

@@ -59,7 +59,7 @@ function NavBar({ logo, client, nosotros, usuario, theme, footerHeader, footerLa
                     >
                         <Container >
                             <Navbar.Brand as={Link} to='/' >
-                                {/*<img style={{ maxWidth: `8rem` }} src={require('../assets/logo.png')} alt='' />*/}
+                                {/*<img style={{ maxWidth: `8rem` }} src={require('../assets/logo4one.png')} alt='' />*/}
                                 {viewImage(logo?.html_image)}
 
                             </Navbar.Brand>
