@@ -65,7 +65,7 @@ const Nosotros = ({ nosotros, theme }) => {
               {
               data?.html_image.data.length!==0 ?
                 <div className="col contenedor"
-                  style={{ height: `50%`, }}
+                  style={{ height: `50%`,margin: `2em` }}
                 >
                   {viewImage(data?.html_image)}
                 </div>
